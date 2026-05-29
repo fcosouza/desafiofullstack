@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #f6f7f9;
+  --bg-tint: #eef0f4;
+  --surface: #ffffff;
+  --surface-2: #fbfcfd;
+  --border: #e7e9ee;
+  --border-strong: #d3d7e0;
+  --text: #14161d;
+  --text-2: #5b6472;
+  --text-3: #8b93a3;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: #eef0fe;
+  --accent-soft-2: #e0e3fc;
+  --accent-text: #4338ca;
+  --green: #0f9d63;
+  --green-soft: #e3f6ee;
+  --amber: #d98a00;
+  --amber-soft: #fdf2dc;
+  --red: #dc3a4b;
+  --red-soft: #fdebed;
+  --blue: #2a74d6;
+  --blue-soft: #e7f0fc;
+  --r-xs: 6px;
+  --r-sm: 9px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+  --sh-sm: 0 1px 2px rgba(20,22,29,.06), 0 1px 1px rgba(20,22,29,.04);
+  --sh-md: 0 4px 14px rgba(20,22,29,.07), 0 1px 3px rgba(20,22,29,.05);
+  --sh-lg: 0 18px 48px rgba(20,22,29,.16), 0 4px 12px rgba(20,22,29,.08);
+  --sh-pop: 0 12px 34px rgba(20,22,29,.14);
+  --font: 'Manrope', system-ui, sans-serif;
+  --font-dp: 'Space Grotesk', 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --sidebar-w: 252px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }
+::selection { background: var(--accent-soft-2); }
+
+*::-webkit-scrollbar { width: 11px; height: 11px; }
+*::-webkit-scrollbar-thumb { background: #d7dbe3; border-radius: 99px; border: 3px solid var(--bg); }
+*::-webkit-scrollbar-thumb:hover { background: #c2c8d2; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  height: 100%;
+  overflow: hidden;
+}
+
+// Buttons
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-weight: 600; font-size: 13.5px; line-height: 1;
+  padding: 0 15px; height: 38px; border-radius: var(--r-sm);
+  border: 1px solid transparent; white-space: nowrap;
+  transition: background .14s, border-color .14s, box-shadow .14s, transform .04s;
+  text-decoration: none;
+  &:active { transform: translateY(.5px); }
+  svg { width: 16px; height: 16px; }
+}
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 1px 2px rgba(79,70,229,.4); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border-strong); }
+.btn-ghost:hover { background: var(--surface); color: var(--text); border-color: var(--text-3); }
+.btn-soft { background: var(--bg-tint); color: var(--text); }
+.btn-soft:hover { background: #e4e7ee; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #c5283a; }
+.btn-danger-soft { background: var(--red-soft); color: var(--red); }
+.btn-danger-soft:hover { background: #fbd9dd; }
+.btn-sm { height: 32px; font-size: 12.5px; padding: 0 11px; }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+
+// Badges
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 99px; white-space: nowrap;
+}
+.badge-pj { background: var(--blue-soft); color: var(--blue); }
+.badge-pf { background: var(--accent-soft); color: var(--accent-text); }
+.badge-uf { background: var(--bg-tint); color: var(--text-2); font-family: var(--font-mono); font-size: 11px; padding: 3px 8px; }
+.badge-green { background: var(--green-soft); color: var(--green); }
+.badge-count { background: var(--bg-tint); color: var(--text-2); }
+
+.mono { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+
+// Toast override
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background: var(--text) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--sh-pop) !important;
+}
+
+// Dialog
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: var(--r-lg) !important;
+}
+
+// Animations
+.view-fade {
+  animation: viewFade .34s cubic-bezier(.32,.72,0,1) both;
+}
+@keyframes viewFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 920px) {
+  .app { grid-template-columns: 1fr; }
+  app-sidebar { display: none; }
+}

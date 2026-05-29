@@ -1,0 +1,110 @@
+<div class="topbar">
+  <div>
+    <button class="back-btn" (click)="voltar()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Voltar
+    </button>
+    <div class="page-title">{{ isEditing ? 'Editar Empresa' : 'Nova Empresa' }}</div>
+  </div>
+  <div class="topbar-spacer"></div>
+</div>
+
+<div class="content">
+  <div class="content-inner view-fade">
+    <div class="form-card">
+      <form [formGroup]="form" (ngSubmit)="salvar()">
+        <div class="form-section">Dados da Empresa</div>
+
+        <div class="field">
+          <label class="lbl">Nome Fantasia <span class="req">*</span></label>
+          <input class="inp" formControlName="nomeFantasia" placeholder="Nome da empresa"
+                 [class.err]="isInvalid('nomeFantasia')">
+          <div class="field-err" *ngIf="isInvalid('nomeFantasia')">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+            Nome Fantasia obrigatorio
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="lbl">CNPJ <span class="req">*</span></label>
+            <input class="inp mono" formControlName="cnpj" placeholder="00.000.000/0000-00"
+                   [class.err]="isInvalid('cnpj')" maxlength="18" (input)="maskCnpj($event)">
+            <div class="field-err" *ngIf="isInvalid('cnpj')">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+              CNPJ invalido
+            </div>
+          </div>
+          <div class="field">
+            <label class="lbl">CEP <span class="req">*</span></label>
+            <div class="input-suffix">
+              <input class="inp mono" formControlName="cep" placeholder="00000-000"
+                     [class.err]="isInvalid('cep')" [class.ok]="cepValido"
+                     maxlength="9" (input)="maskCep($event)" (blur)="consultarCep()">
+              <div class="suffix" *ngIf="cepLoading"><div class="spin"></div></div>
+            </div>
+            <div class="field-ok" *ngIf="cepValido && cepInfo">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              {{ cepInfo }}
+            </div>
+            <div class="field-err" *ngIf="isInvalid('cep')">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+              CEP invalido
+            </div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="lbl">Estado <span class="req">*</span></label>
+            <input class="inp" formControlName="estado" placeholder="UF" maxlength="2"
+                   [class.err]="isInvalid('estado')" style="text-transform: uppercase;">
+          </div>
+          <div class="field">
+            <label class="lbl">Cidade <span class="req">*</span></label>
+            <input class="inp" formControlName="cidade" placeholder="Cidade"
+                   [class.err]="isInvalid('cidade')">
+          </div>
+        </div>
+
+        <div class="form-section">Fornecedores Vinculados</div>
+
+        <div class="linker">
+          <div class="linker-search">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" placeholder="Buscar fornecedor..." [(ngModel)]="fornecedorSearch" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="linker-list">
+            <div class="linker-opt" *ngFor="let f of fornecedoresFiltrados"
+                 [class.on]="isFornecedorSelecionado(f.id)"
+                 (click)="toggleFornecedor(f.id)">
+              <div class="lk-check">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <div>
+                <div class="lk-name">{{ f.nome }}</div>
+                <div class="lk-doc">{{ f.cpfCnpj }} · {{ f.tipoPessoa === 'FISICA' ? 'Pessoa Fisica' : 'Pessoa Juridica' }}</div>
+              </div>
+            </div>
+            <div *ngIf="fornecedoresFiltrados.length === 0" style="padding: 18px; text-align: center; color: var(--text-3); font-size: 13px;">
+              Nenhum fornecedor encontrado
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" (click)="voltar()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || saving">
+            {{ saving ? 'Salvando...' : (isEditing ? 'Salvar Alteracoes' : 'Criar Empresa') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

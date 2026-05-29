@@ -1,0 +1,88 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+.topbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 32px; border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,.72); backdrop-filter: blur(8px);
+}
+.page-title { font-family: var(--font-dp); font-size: 21px; font-weight: 700; letter-spacing: -.02em; }
+.page-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+.topbar-spacer { flex: 1; }
+.content { flex: 1; overflow-y: auto; padding: 28px 32px 64px; }
+.content-inner { max-width: 1180px; margin: 0 auto; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 18px; box-shadow: var(--sh-sm);
+}
+.stat-ico { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; margin-bottom: 14px; }
+.stat-val { font-family: var(--font-dp); font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+.stat-label { font-size: 13px; color: var(--text-2); font-weight: 600; margin-top: 7px; }
+
+.toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+.search { position: relative; flex: 1; min-width: 200px; max-width: 340px; }
+.search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-3); }
+.search input {
+  width: 100%; height: 40px; padding: 0 12px 0 36px;
+  border: 1px solid var(--border-strong); border-radius: var(--r-sm);
+  background: var(--surface); font-size: 13.5px; color: var(--text);
+  transition: border-color .14s, box-shadow .14s;
+}
+.search input::placeholder { color: var(--text-3); }
+.search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.seg {
+  display: inline-flex; background: var(--bg-tint); border-radius: var(--r-sm); padding: 3px;
+  border: 1px solid var(--border);
+}
+.seg button {
+  border: none; background: transparent; padding: 6px 13px; border-radius: 7px;
+  font-weight: 600; font-size: 13px; color: var(--text-2); transition: all .14s; cursor: pointer;
+}
+.seg button.active { background: var(--surface); color: var(--text); box-shadow: var(--sh-sm); }
+
+.table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--sh-sm); overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  text-align: left; font-size: 11.5px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--text-3);
+  padding: 13px 18px; border-bottom: 1px solid var(--border); background: var(--surface-2);
+}
+tbody td { padding: 13px 18px; border-bottom: 1px solid var(--border); font-size: 13.5px; vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr { transition: background .1s; }
+tbody tr:hover { background: var(--surface-2); }
+.cell-flex { display: flex; align-items: center; gap: 11px; }
+.av {
+  width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+  display: grid; place-items: center; font-weight: 700; font-size: 13px; color: #fff;
+}
+.row-main { font-weight: 700; font-size: 14px; }
+.row-sub { font-size: 12px; color: var(--text-3); margin-top: 1px; }
+.row-actions { display: flex; align-items: center; gap: 4px; justify-content: flex-end; opacity: 0; transition: opacity .12s; }
+tr:hover .row-actions { opacity: 1; }
+.icon-btn {
+  width: 32px; height: 32px; border-radius: 8px; border: none; background: transparent;
+  display: grid; place-items: center; color: var(--text-3); transition: all .12s; cursor: pointer;
+}
+.icon-btn svg { width: 16px; height: 16px; }
+.icon-btn:hover { background: var(--bg-tint); color: var(--text); }
+.icon-btn.danger:hover { background: var(--red-soft); color: var(--red); }
+
+.empty {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 64px 24px;
+}
+.empty-ico {
+  width: 64px; height: 64px; border-radius: 18px; background: var(--accent-soft);
+  display: grid; place-items: center; margin-bottom: 18px; color: var(--accent);
+}
+.empty-ico svg { width: 28px; height: 28px; }
+.empty h3 { font-family: var(--font-dp); font-size: 17px; margin: 0 0 6px; }
+.empty p { font-size: 14px; color: var(--text-2); margin: 0 0 20px; max-width: 340px; line-height: 1.5; }
