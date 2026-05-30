@@ -111,6 +111,7 @@ input, select, textarea { font-family: inherit; }
 // Dialog
 .mat-mdc-dialog-container .mdc-dialog__surface {
   border-radius: var(--r-lg) !important;
+  padding: 24px !important;
 }
 
 // Animations

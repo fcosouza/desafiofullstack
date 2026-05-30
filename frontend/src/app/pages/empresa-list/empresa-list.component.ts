@@ -63,7 +63,7 @@ export class EmpresaListComponent implements OnInit {
       width: '420px',
       data: {
         title: 'Excluir empresa',
-        message: `Tem certeza que deseja excluir "${empresa.nomeFantasia}"? Esta acao nao pode ser desfeita.`
+        message: `Tem certeza que deseja excluir "${empresa.nomeFantasia}"? Esta ação não pode ser desfeita.`
       }
     });
 

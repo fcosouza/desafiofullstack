@@ -62,7 +62,7 @@ export class FornecedorListComponent implements OnInit {
   confirmarExclusao(f: FornecedorResumo): void {
     const ref = this.dialog.open(ConfirmDialogComponent, {
       width: '420px',
-      data: { title: 'Excluir fornecedor', message: `Tem certeza que deseja excluir "${f.nome}"? Esta acao nao pode ser desfeita.` }
+      data: { title: 'Excluir fornecedor', message: `Tem certeza que deseja excluir "${f.nome}"? Esta acão nãoo pode ser desfeita.` }
     });
 
     ref.afterClosed().subscribe(result => {

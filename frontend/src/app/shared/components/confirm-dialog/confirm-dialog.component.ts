@@ -22,7 +22,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/materia
     </div>
   `,
   styles: [`
-    .modal-content { padding: 6px; }
+    .modal-content { padding: 4px; }
     .modal-ico {
       width: 46px; height: 46px; border-radius: 12px;
       display: grid; place-items: center; margin-bottom: 16px;
