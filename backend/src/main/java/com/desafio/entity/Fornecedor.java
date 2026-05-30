@@ -8,7 +8,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "fornecedor")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(exclude = "empresas")
+@ToString(exclude = "empresas")
 public class Fornecedor {
 
     @Id

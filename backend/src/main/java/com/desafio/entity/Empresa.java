@@ -7,7 +7,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "empresa")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(exclude = "fornecedores")
+@ToString(exclude = "fornecedores")
 public class Empresa {
 
     @Id

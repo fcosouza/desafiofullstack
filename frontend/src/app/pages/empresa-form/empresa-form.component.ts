@@ -126,7 +126,7 @@ export class EmpresaFormComponent implements OnInit {
       error: () => {
         this.cepLoading = false;
         this.cepValido = false;
-        this.snackBar.open('CEP nao encontrado', 'OK', { duration: 3000 });
+        this.snackBar.open('CEP não encontrado', 'OK', { duration: 3000 });
       }
     });
   }

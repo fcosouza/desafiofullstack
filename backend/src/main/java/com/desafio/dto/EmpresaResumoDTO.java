@@ -2,7 +2,10 @@ package com.desafio.dto;
 
 import lombok.*;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EmpresaResumoDTO {
     private Long id;
     private String cnpj;

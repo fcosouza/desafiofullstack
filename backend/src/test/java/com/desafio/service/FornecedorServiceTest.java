@@ -1,5 +1,6 @@
 package com.desafio.service;
 
+import com.desafio.dto.CepDTO;
 import com.desafio.dto.FornecedorDTO;
 import com.desafio.dto.FornecedorResumoDTO;
 import com.desafio.entity.Empresa;
@@ -101,7 +102,7 @@ class FornecedorServiceTest {
     @Test
     void criar_deveSalvarFornecedorPJ() {
         when(fornecedorRepository.findByCpfCnpj(anyString())).thenReturn(Optional.empty());
-        when(cepService.validarCep(anyString())).thenReturn(new CepService.CepResponse());
+        when(cepService.validarCep(anyString())).thenReturn(new CepDTO());
         when(fornecedorRepository.save(any(Fornecedor.class))).thenReturn(fornecedorPJ);
 
         FornecedorDTO resultado = fornecedorService.criar(dtoPJ);
@@ -125,7 +126,7 @@ class FornecedorServiceTest {
                 .build();
 
         when(fornecedorRepository.findByCpfCnpj(anyString())).thenReturn(Optional.empty());
-        when(cepService.validarCep(anyString())).thenReturn(new CepService.CepResponse());
+        when(cepService.validarCep(anyString())).thenReturn(new CepDTO());
         when(fornecedorRepository.save(any(Fornecedor.class))).thenReturn(fornecedorPF);
 
         FornecedorDTO resultado = fornecedorService.criar(dtoPF);
@@ -182,7 +183,7 @@ class FornecedorServiceTest {
                 .build();
 
         when(fornecedorRepository.findByCpfCnpj(anyString())).thenReturn(Optional.empty());
-        when(cepService.validarCep(anyString())).thenReturn(new CepService.CepResponse());
+        when(cepService.validarCep(anyString())).thenReturn(new CepDTO());
         when(fornecedorRepository.save(any(Fornecedor.class))).thenReturn(fornecedorPF);
         when(empresaRepository.findAllById(anyCollection())).thenReturn(List.of(empresaPR));
 

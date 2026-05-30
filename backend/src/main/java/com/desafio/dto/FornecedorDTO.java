@@ -6,7 +6,10 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class FornecedorDTO {
 
     private Long id;

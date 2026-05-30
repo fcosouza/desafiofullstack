@@ -33,6 +33,7 @@ export class FornecedorService {
   }
 
   excluir(id: number): Observable<void> {
+    console.log("teste")
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 }

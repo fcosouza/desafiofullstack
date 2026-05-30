@@ -11,48 +11,72 @@ Sistema Full-Stack para cadastro de Empresas e Fornecedores com relacionamento M
 | Spring Data JPA | Reactive Forms |
 | Bean Validation | RxJS |
 | Lombok | TypeScript |
-| H2 / PostgreSQL | SCSS |
-
-## Arquitetura
-
-```
-backend/                        frontend/
-├── controller/  (REST API)     ├── pages/       (telas)
-├── service/     (regras)       ├── services/    (HTTP)
-├── repository/  (banco)        ├── models/      (interfaces)
-├── entity/      (tabelas)      └── shared/      (componentes)
-├── dto/         (entrada/saida)
-├── exception/   (erros)
-└── config/      (CORS, beans)
-```
+| PostgreSQL | SCSS |
 
 ## Pre-requisitos
+
+- **Docker** e **Docker Compose** - [Download](https://www.docker.com/products/docker-desktop/)
+
+## Executando com Docker (recomendado)
+
+```bash
+git clone <url-do-repositorio>
+cd desafiofullstack
+docker-compose up --build
+```
+
+Aguarde os 3 containers subirem (postgres, backend, frontend) e acesse:
+
+- **Aplicacao:** http://localhost:4200
+- **API:** http://localhost:8080
+
+Para parar:
+
+```bash
+docker-compose down
+```
+
+Para parar e limpar os dados do banco:
+
+```bash
+docker-compose down -v
+```
+
+## Executando sem Docker (desenvolvimento/debug)
+
+### Pre-requisitos adicionais
 
 - **Java 17** - [Download](https://adoptium.net/)
 - **Maven 3.8+** - [Download](https://maven.apache.org/)
 - **Node.js 18+** - [Download](https://nodejs.org/)
 - **Angular CLI** - `npm install -g @angular/cli`
+- **PostgreSQL 15** - [Download](https://www.postgresql.org/download/)
 
-## Como executar
+### 1. Configurar o banco
 
-### 1. Clone o repositorio
+Crie o banco de dados no PostgreSQL:
 
 ```bash
-git clone <url-do-repositorio>
-cd desafiofullstack
+createdb fornece_db
 ```
 
-### 2. Back-end (porta 8080)
+As credenciais padrao estao em `backend/src/main/resources/application.properties`. Se precisar alterar usuario ou senha, use variaveis de ambiente:
+
+```bash
+export DB_USER=seu_usuario
+export DB_PASS=sua_senha
+```
+
+### 2. Iniciar o back-end (porta 8080)
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-> O banco H2 em memoria ja vem configurado. Nao precisa instalar banco de dados.
-> Console H2 disponivel em: http://localhost:8080/h2-console (JDBC URL: `jdbc:h2:mem:fornece_db`, user: `sa`, sem senha)
+### 3. Iniciar o front-end (porta 4200)
 
-### 3. Front-end (porta 4200)
+Em outro terminal:
 
 ```bash
 cd frontend
@@ -60,35 +84,16 @@ npm install
 ng serve
 ```
 
-### 4. Acesse
+### 4. Acessar
 
-Abra o navegador em **http://localhost:4200**
+Abra http://localhost:4200
 
-## Usando PostgreSQL (opcional)
-
-Se preferir usar PostgreSQL em vez do H2, edite `backend/src/main/resources/application.properties`:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/fornece_db
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-```
-
-E crie o banco:
+## Testes
 
 ```bash
-createdb fornece_db
+cd backend
+mvn test
 ```
-
-## Docker Compose (opcional)
-
-```bash
-docker-compose up --build
-```
-
-Acesse em http://localhost:4200
 
 ## Endpoints da API
 
@@ -112,15 +117,4 @@ Acesse em http://localhost:4200
 1. **CPF/CNPJ unicos** - Nao permite duplicatas
 2. **Pessoa Fisica** - RG e data de nascimento obrigatorios
 3. **Empresa do Parana (PR)** - Nao aceita fornecedor pessoa fisica menor de idade
-4. **Validacao de CEP** - Validado no front-end e no back-end via ViaCEP
-
-## Funcionalidades
-
-- CRUD completo de Empresas e Fornecedores
-- Vinculacao ManyToMany entre Empresa e Fornecedor
-- Busca por nome e CPF/CNPJ
-- Filtro por tipo (Pessoa Fisica / Juridica)
-- Mascaras para CPF, CNPJ e CEP
-- Consulta automatica de CEP com preenchimento de cidade/estado
-- Confirmacao antes de excluir
-- Notificacoes de sucesso/erro
+4. **Validacao de CEP** - Consulta via API externa (cep.la com fallback ViaCEP)
