@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Fornecedor, FornecedorResumo } from '../models/fornecedor.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FornecedorService {
-  private readonly url = 'http://localhost:8080/fornecedores';
+  private readonly url = `${environment.apiUrl}/fornecedores`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,7 +34,6 @@ export class FornecedorService {
   }
 
   excluir(id: number): Observable<void> {
-    console.log("teste")
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 }
