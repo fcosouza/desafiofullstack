@@ -7,6 +7,7 @@ import { EmpresaService } from '../../services/empresa.service';
 import { FornecedorService } from '../../services/fornecedor.service';
 import { CepService } from '../../services/cep.service';
 import { FornecedorResumo } from '../../models/fornecedor.model';
+import { applyMask, maskCnpj, maskCep } from '../../utils/masks';
 
 @Component({
   selector: 'app-empresa-form',
@@ -87,22 +88,11 @@ export class EmpresaFormComponent implements OnInit {
   }
 
   maskCnpj(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let v = input.value.replace(/\D/g, '');
-    if (v.length > 14) v = v.substring(0, 14);
-    if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})/, '$1.$2.$3/$4-$5');
-    else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{1,4})/, '$1.$2.$3/$4');
-    else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
-    else if (v.length > 2) v = v.replace(/^(\d{2})(\d{1,3})/, '$1.$2');
-    this.form.get('cnpj')!.setValue(v, { emitEvent: false });
+    this.form.get('cnpj')!.setValue(applyMask(event, maskCnpj), { emitEvent: false });
   }
 
   maskCep(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let v = input.value.replace(/\D/g, '');
-    if (v.length > 8) v = v.substring(0, 8);
-    if (v.length > 5) v = v.replace(/^(\d{5})(\d{1,3})/, '$1-$2');
-    this.form.get('cep')!.setValue(v, { emitEvent: false });
+    this.form.get('cep')!.setValue(applyMask(event, maskCep), { emitEvent: false });
   }
 
   consultarCep(): void {

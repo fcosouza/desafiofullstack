@@ -8,6 +8,8 @@ import { EmpresaService } from '../../services/empresa.service';
 import { CepService } from '../../services/cep.service';
 import { EmpresaResumo } from '../../models/empresa.model';
 import { TipoPessoa } from '../../models/fornecedor.model';
+import { applyMask, maskCpf, maskCnpj, maskCep, maskRg } from '../../utils/masks';
+import { dataNaoFutura } from '../../utils/validators';
 
 @Component({
   selector: 'app-fornecedor-form',
@@ -27,6 +29,7 @@ export class FornecedorFormComponent implements OnInit {
   empresas: EmpresaResumo[] = [];
   empresaSearch = '';
   selectedEmpresaIds: Set<number> = new Set();
+  hoje = new Date().toISOString().split('T')[0];
 
   get isPF(): boolean { return this.form?.get('tipoPessoa')?.value === 'FISICA'; }
 
@@ -90,8 +93,8 @@ export class FornecedorFormComponent implements OnInit {
     const rg = this.form.get('rg')!;
     const dn = this.form.get('dataNascimento')!;
     if (this.isPF) {
-      rg.setValidators(Validators.required);
-      dn.setValidators(Validators.required);
+      rg.setValidators([Validators.required, Validators.maxLength(12)]);
+      dn.setValidators([Validators.required, dataNaoFutura]);
     } else {
       rg.clearValidators();
       dn.clearValidators();
@@ -108,29 +111,16 @@ export class FornecedorFormComponent implements OnInit {
   }
 
   maskCpfCnpj(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let v = input.value.replace(/\D/g, '');
-    if (this.isPF) {
-      if (v.length > 11) v = v.substring(0, 11);
-      if (v.length > 9) v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
-      else if (v.length > 6) v = v.replace(/^(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
-      else if (v.length > 3) v = v.replace(/^(\d{3})(\d{1,3})/, '$1.$2');
-    } else {
-      if (v.length > 14) v = v.substring(0, 14);
-      if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})/, '$1.$2.$3/$4-$5');
-      else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{1,4})/, '$1.$2.$3/$4');
-      else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
-      else if (v.length > 2) v = v.replace(/^(\d{2})(\d{1,3})/, '$1.$2');
-    }
-    this.form.get('cpfCnpj')!.setValue(v, { emitEvent: false });
+    const masked = applyMask(event, this.isPF ? maskCpf : maskCnpj);
+    this.form.get('cpfCnpj')!.setValue(masked, { emitEvent: false });
+  }
+
+  maskRg(event: Event): void {
+    this.form.get('rg')!.setValue(applyMask(event, maskRg), { emitEvent: false });
   }
 
   maskCep(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let v = input.value.replace(/\D/g, '');
-    if (v.length > 8) v = v.substring(0, 8);
-    if (v.length > 5) v = v.replace(/^(\d{5})(\d{1,3})/, '$1-$2');
-    this.form.get('cep')!.setValue(v, { emitEvent: false });
+    this.form.get('cep')!.setValue(applyMask(event, maskCep), { emitEvent: false });
   }
 
   consultarCep(): void {

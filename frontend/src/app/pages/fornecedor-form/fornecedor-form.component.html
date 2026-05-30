@@ -69,13 +69,16 @@
         <div class="field-row" *ngIf="isPF">
           <div class="field">
             <label class="lbl">RG <span class="req">*</span></label>
-            <input class="inp mono" formControlName="rg" placeholder="RG"
-                   [class.err]="isInvalid('rg')">
+            <input class="inp mono" formControlName="rg" placeholder="00.000.000-0"
+                   [class.err]="isInvalid('rg')"
+                   maxlength="12"
+                   (input)="maskRg($event)">
           </div>
           <div class="field">
             <label class="lbl">Data de Nascimento <span class="req">*</span></label>
             <input class="inp" type="date" formControlName="dataNascimento"
-                   [class.err]="isInvalid('dataNascimento')">
+                   [class.err]="isInvalid('dataNascimento')"
+                   [max]="hoje">
           </div>
         </div>
 

@@ -118,6 +118,9 @@ public class FornecedorService {
             if (dto.getDataNascimento() == null) {
                 throw new BusinessException("Data de nascimento é obrigatória para pessoa física");
             }
+            if (dto.getDataNascimento().isAfter(LocalDate.now())) {
+                throw new BusinessException("Data de nascimento não pode ser futura");
+            }
         }
     }
 
